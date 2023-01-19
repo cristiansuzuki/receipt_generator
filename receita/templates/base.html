@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block titulo %}Base{% endblock %}</title>
+
+    <link rel="icon" href="{% static 'assets/favicon.ico' %}" type="image/ico">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,700;1,100;1,400;1,700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+{% block container %}
+
+{% endblock %}
+
+<footer>
+    <p>developed by</p>
+</footer>
+
+
+    <script>
+        const Modal = {
+            open() {
+                document.querySelector('.modal-overlay').classList.add('active')
+            },
+            close() {
+                document.querySelector('.modal-overlay').classList.remove('active')
+            }
+        }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // messages timeout for 10 sec
+            setTimeout(function() {
+                $('.messages').slideToggle('slow');
+            }, 5000); // <-- time in milliseconds, 1000 =  1 sec
+        });
+    </script>
+
+</body>
+</html>

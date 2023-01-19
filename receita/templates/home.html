@@ -1,0 +1,97 @@
+{% extends 'base.html' %} 
+{% load static %}
+ {% block titulo %}  {% endblock %}
+ 
+ {% block container %}
+
+<header>
+ <link rel="icon" href="{% static 'assets/favicon.ico' %}" type="image/ico">
+ <h2 class="lista">Gerador de receitas</h2>
+</header>
+
+<main class="container">
+ <section id="balance">
+   <h2 class="sr-only">Balanço</h2>
+
+   <div class="card total">
+     <h3>
+       <span class="nome-usuario">Ola Rodrigo !</span>
+     </h3>
+     <h3>
+     </h3>
+   </div>
+ </section>
+
+ <section id="transaction">
+   <h2 class="sr-only">Lista Tarefas</h2>
+
+   <a onclick="Modal.open()" class="button new">+ Cadastrar medicamento</a>
+
+   <table id="data-table">
+     <thead>
+       <tr>
+         <th>Titulo</th>
+         <th>Nome</th>
+         <th>Posologia</th>
+         <th>Via</th>
+         <th></th>
+       </tr>
+     </thead>
+     <tbody>
+        {% for medicamento in medicamentos %}
+       <tr>
+         <td class="verde">{{ medicamento.titulo }}</td>
+         <td class="description">{{ medicamento.nome }}</td>
+         <td class="vermelho">{{ medicamento.posologia }}</td>
+         <td class="date">{{ medicamento.via }}</td>
+         <td>
+           <a href="">
+             <img src="" alt="Remover item" />
+           </a>
+         </td>
+       </tr>
+        {% endfor %}
+     
+     </tbody>
+   </table>
+ </section>
+</main>
+
+<div class="modal-overlay">
+ <div class="modal">
+   <div id="form">
+     <h2>Novo Medicamento</h2>
+
+     <form method="POST">
+       {% csrf_token %}
+       <div class="input-group">
+         <label class="sr-only" for="description">Titulo</label>
+            {{ form.titulo }}
+       </div>
+
+       <div class="input-group">
+         <label class="sr-only" for="description">Nome/Dosagem</label>
+            {{form.nome}}
+       </div>
+
+       <div class="input-group">
+         <label class="sr-only" for="date">Posologia</label>
+            {{form.posologia}}
+       </div>
+
+       <div class="input-group">
+         <label class="sr-only" for="conteudo">Via</label>
+            {{form.via}}
+       </div>
+
+       <div class="input-group actions">
+         <a onclick="Modal.close()" class="button cancel">Cancelar</a>
+         <button type="submit">Salvar</button>
+       </div>
+     </form>
+     <!-- <a href="#" class="button cat">+ Cadastrar categoria</a> -->
+   </div>
+ </div>
+</div>
+
+{% endblock %}
