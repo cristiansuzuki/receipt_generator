@@ -26,7 +26,8 @@
    <h2 class="sr-only">Lista Tarefas</h2>
 
    <a onclick="Modal.open()" class="button new">+ Cadastrar medicamento</a>
-
+   
+   <form onsubmit="generate_receipt(event)">
    <table id="data-table">
      <thead>
        <tr>
@@ -38,7 +39,7 @@
        </tr>
      </thead>
      <tbody>
-        {% for medicamento in medicamentos %}
+          {% for medicamento in medicamentos %}
        <tr>
          <td class="verde">{{ medicamento.titulo }}</td>
          <td class="description">{{ medicamento.nome }}</td>
@@ -46,14 +47,25 @@
          <td class="date">{{ medicamento.via }}</td>
          <td>
            <a href="">
-             <img src="" alt="Remover item" />
+             <input type="checkbox" id="selected_remedy_{{medicamento.id}}">
            </a>
          </td>
        </tr>
         {% endfor %}
-     
+
      </tbody>
    </table>
+   <button type="submit">GERAR</button>
+  </form>
+  {% if medicamentos_selecionados %}
+  <div id="results" style="background-color: white;">
+    {% for medicamento in medicamentos_selecionados %}
+
+      <h1>{{ medicamento.nome }}</h1>
+    {% endfor %}
+
+  </div>
+  {% endif %}
  </section>
 </main>
 
@@ -93,5 +105,16 @@
    </div>
  </div>
 </div>
+
+<script>
+  function generate_receipt(event){
+    event.preventDefault()
+    const checkboxes = document.querySelectorAll('[id^="selected_remedy"]')
+    const checkedboxes = Array.from(checkboxes).filter(box => box.checked)
+    const checkbox_id = checkedboxes.map(box => box.id.replace('selected_remedy_',''))
+    window.location.replace(`?selected_remedies=${checkbox_id.toString()}`)
+  }
+  
+</script>
 
 {% endblock %}

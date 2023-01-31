@@ -15,5 +15,11 @@ def home(request):
 
     medicamento = Medicamento.objects.all()
     medicamento = reversed(medicamento)
+    selected_remedies = request.GET.get('selected_remedies')
+    if selected_remedies:
+        medicamentos_selecionados = Medicamento.objects.filter(pk__in=selected_remedies.split(','))
+    else:
+        medicamentos_selecionados = []
+    
 
-    return render(request, 'home.html' , {'form': form, 'medicamentos': medicamento})
+    return render(request, 'home.html' , {'form': form, 'medicamentos': medicamento, 'medicamentos_selecionados': medicamentos_selecionados})
