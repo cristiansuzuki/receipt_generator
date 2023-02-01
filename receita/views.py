@@ -13,8 +13,7 @@ def home(request):
     else:
         form = MedicamentoForm()  
 
-    medicamento = Medicamento.objects.all()
-    medicamento = reversed(medicamento)
+    medicamento = Medicamento.objects.all().order_by('via')
     selected_remedies = request.GET.get('selected_remedies')
     if selected_remedies:
         medicamentos_selecionados = Medicamento.objects.filter(pk__in=selected_remedies.split(','))

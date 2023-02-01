@@ -28,12 +28,12 @@
    <a onclick="Modal.open()" class="button new">+ Cadastrar medicamento</a>
    
    <form onsubmit="generate_receipt(event)">
+    <div>
    <table id="data-table">
      <thead>
        <tr>
          <th>Titulo</th>
          <th>Nome</th>
-         <th>Posologia</th>
          <th>Via</th>
          <th></th>
        </tr>
@@ -43,12 +43,9 @@
        <tr>
          <td class="verde">{{ medicamento.titulo }}</td>
          <td class="description">{{ medicamento.nome }}</td>
-         <td class="vermelho">{{ medicamento.posologia }}</td>
          <td class="date">{{ medicamento.via }}</td>
          <td>
-           <a href="">
              <input type="checkbox" id="selected_remedy_{{medicamento.id}}">
-           </a>
          </td>
        </tr>
         {% endfor %}
@@ -58,14 +55,29 @@
    <button type="submit">GERAR</button>
   </form>
   {% if medicamentos_selecionados %}
-  <div id="results" style="background-color: white;">
-    {% for medicamento in medicamentos_selecionados %}
+  <div id="results" style=
+  "background-color: white; 
+    margin-top: 15px;
+    border-radius: 5px;
+    padding: 10px;">
 
-      <h1>{{ medicamento.nome }}</h1>
+    {% regroup medicamentos_selecionados by via as medicamentos_agrupados %}
+    
+    {% for medicamento in medicamentos_agrupados %}
+      <h1>USO {{ medicamento.grouper }}</h1>
+      {% for x in medicamento.list %}
+      <h3>{{ x.nome }}</h3> 
+      <h3>{{ x.posologia }}</h3>
+      <br>
+      {% endfor %}
+
     {% endfor %}
 
   </div>
+
+  <button style="margin-top: 10px; border-radius: 5px;" onclick="copiar()">COPIAR TEXTO</button>
   {% endif %}
+  
  </section>
 </main>
 
@@ -114,7 +126,19 @@
     const checkbox_id = checkedboxes.map(box => box.id.replace('selected_remedy_',''))
     window.location.replace(`?selected_remedies=${checkbox_id.toString()}`)
   }
-  
 </script>
+
+<script>
+  let text = document.getElementById('results').innerHTML;
+  const copiar = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log('Content copied to clipboard');
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  }
+</script>
+
 
 {% endblock %}
